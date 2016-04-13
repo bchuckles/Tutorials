@@ -22,13 +22,11 @@ angular.module('myApp.view1', ['ngRoute','ngStorage'])
         contact.name = name;
         contact.address = address;
         contact.phone = phone;
-        console.log(contact);
         if(info === undefined && $localStorage.message.length < 1 ){
             info = [];
         }else if($localStorage.message.length > 0){
             info = $localStorage.message;
         }
-        console.log(typeof info);
 
         info.push(contact);
         $localStorage.message = info;

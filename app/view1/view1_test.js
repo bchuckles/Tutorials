@@ -9,7 +9,7 @@ describe('myApp.view1 module', function() {
   beforeEach(module('myApp.view1'));
     beforeEach(inject(function($controller,  $rootScope, $localStorage) {
         myScope = $rootScope.$new();
-        local = $localStorage;
+        local = $localStorage.$reset();
         local.message = new Array();
        view1Ctrl = $controller('View1Ctrl', {
           '$scope':  myScope,
@@ -24,16 +24,34 @@ describe('myApp.view1 module', function() {
         });
         it('ensure that it saves information', function() {
             myScope.save("jello","65614","46546");
-            console.log(local.message[0].name);
-            expect(local.message.length > 1).toBe(true);
+            expect(local.message.length > 0).toBe(true);
         });
-
+        it('ensure that it saves the name', function() {
+            myScope.save("jello","65614","46546");
+            expect(local.message[0].name).toBe("jello");
+        });
+        it('ensure that it saves the phone', function() {
+            myScope.save("jello","65614","46546");
+            expect(local.message[0].phone).toBe("46546");
+        });
+        it('ensure that it saves the address', function() {
+            myScope.save("jello","65614","46546");
+            expect(local.message[0].address).toBe("65614");
+        });
 
     });
-    describe('address', function(){
-
-        it('ensure it is not empty', function() {
+    describe('List functionality', function(){
+        it('ensure there is a list function', function() {
+            expect(typeof myScope.list).toBe("function");
         });
+        it('the list function returns more than one', function() {
+            myScope.save("jello","65614","46546");
+            myScope.list();
+            expect(myScope.data[0].name).toBe("jello");
+            expect(myScope.data[0].address).toBe("65614");
+            expect(myScope.data[0].phone).toBe("46546");
+        });
+
     });
     describe('phone number', function(){
 
