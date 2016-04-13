@@ -3,24 +3,32 @@
 //contact’s name, address, and phone number. The SPA should provide the ability to
 
 describe('myApp.view1 module', function() {
-
+    var view1Ctrl;
+    var myScope;
+    var local;
   beforeEach(module('myApp.view1'));
-    describe('view1 controller', function(){
+    beforeEach(inject(function($controller,  $rootScope, $localStorage) {
+        myScope = $rootScope.$new();
+        local = $localStorage;
+        local.message = new Array();
+       view1Ctrl = $controller('View1Ctrl', {
+          '$scope':  myScope,
+           '$localStorage': local
 
-        it('should ....', inject(function($controller,  $rootScope) {
-          //spec body
-          var view1Ctrl = $controller('View1Ctrl', {
-              '$scope':  $rootScope.$new()
-          });
-          expect(view1Ctrl).toBeDefined();
-        }));
-    });
-    describe('contact’s name', function(){
+      });
+    }));
 
-        it('ensure it is not empty', function() {
+    describe('save functionality', function(){
+        it('ensure there is a save function', function() {
+            expect(typeof myScope.save).toBe("function");
         });
-        it('ensure it only has alpha characters', function() {
+        it('ensure that it saves information', function() {
+            myScope.save("jello","65614","46546");
+            console.log(local.message[0].name);
+            expect(local.message.length > 1).toBe(true);
         });
+
+
     });
     describe('address', function(){
 
